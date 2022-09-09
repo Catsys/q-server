@@ -4,6 +4,11 @@ A simple jobs queue for easy projects like a home server. The most minimal syste
 ## Why?
 For servers with limited resources and simple projects. I am using this queue for my home server. When I need to give the server a long task like a long processing or downloading a file and go about my business.
 
+## Features
+* Lightweight and ready to go out of the box
+* The job gets queued even if the worker is not currently running. The worker will do the job as soon as it is started
+* Minimum setup: Only php is needed to work. Keeping a worker running is also easy without special tools: you can add a lock file parameter and write the task to cron.
+
 ## Not for big projects!
 Do not use this project for large projects. It's not designed to handle a lot of tasks, workers and servers
 
@@ -11,6 +16,11 @@ Do not use this project for large projects. It's not designed to handle a lot of
 * PHP 7.4+  
 
 it is all ;)
+
+## Quick start
+1. Run `git clone git@github.com:Catsys/q-server.git` in work dir or download [zip file](https://github.com/Catsys/q-server/archive/refs/heads/master.zip) and unzip in work dir.
+2. Go to work dir and run worker `php q-server.php worker`. The worker must always be running. You can use [supervisor](http://supervisord.org/), [crontab](https://en.wikipedia.org/wiki/Cron) or other to keep things running
+3. Run job from your project like `cd /path/to/q-server-project/ && php q-server.php put --cmd='php /path/to/your-project/script.php'`
 
 ## How it works
 The main idea is that full-fledged bash commands are sent to the queue. This makes it more flexible given that it's designed to run on a single server.
@@ -35,3 +45,14 @@ The main idea is that full-fledged bash commands are sent to the queue. This mak
     --tries       - tries for run before kill job. default is 1
     --tries_delay - delay between tries in seconds. default is 180 (3 min)
  
+## "worker" command parameters:
+    --single-mode  - true or false. Prevent second instance from starting. default value is false
+    
+## How to run in crontab
+1. Run `crontab -e`
+2. insert `* * * * * cd PATH_TO_WORKER && php q-server.php worker --single-mode=true` where PATH_TO_WORKER replaced to worker dir in your server.
+
+## TODO
+* Global startup script for /usr/bin or alias. To be able to call from anywhere as `q-server put --cmd=''`
+* Mysql driver
+* More drivers for the driver god

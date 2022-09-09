@@ -8,6 +8,7 @@ use QServer\Exceptions\OtherExceptions;
 use QServer\Jobs\JobStruct;
 use QServer\Storages\StorageFactory;
 use QServer\Commands\Traits\CommandOutput;
+use QServer\Exceptions\AlreadyRunningException;
 
 class WorkerCommand implements CommandInterface
 {
@@ -16,11 +17,29 @@ class WorkerCommand implements CommandInterface
 
     public function run(array $data = [])
     {
+        $data = $this->prepareData($data);
+        
+        if (($data['single-mode'] ?? 'false') !== 'false') {
+            $dir = __PROJECT_ROOT__.'/data';
+            @mkdir($dir);
+            $lockFile = $dir.'/worker_lock';
+            if (file_exists($lockFile)) {
+                $created = filemtime($lockFile);
+                if((time() - $created) < 10) {
+                    throw new AlreadyRunningException();
+                }
+            }
+        }
 
         $storage = StorageFactory::create();
         $this->info('start worker');
 
         while (true) {
+            
+            if (!empty($lockFile)){
+                touch($lockFile);
+            }
+
             \sleep(1);
 
             if (!$data = $storage->getRow()) {
@@ -83,9 +102,10 @@ class WorkerCommand implements CommandInterface
         foreach ($data as $arg) {
             if (strpos($arg, '=') !== false) {
                 [$key, $value] = explode('=', $arg);
-                $key = str_replace('--', '', $key);
-                $newData[$key] = $value;
             }
+            
+            $key = str_replace('--', '', $key ?? $arg);
+            $newData[$key] = $value ?? null;
         }
         return $newData;
     }
