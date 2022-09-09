@@ -18,7 +18,7 @@ class WorkerCommand implements CommandInterface
     public function run(array $data = [])
     {
         $data = $this->prepareData($data);
-        
+        $this->silentMode = !empty($data['silent-mode']);
         if (($data['single-mode'] ?? 'false') !== 'false') {
             $dir = __PROJECT_ROOT__.'/data';
             @mkdir($dir);
@@ -48,7 +48,6 @@ class WorkerCommand implements CommandInterface
 
             $job = new JobStruct();
             $job->fillFromArray($data);
-            
             $delay = 0;
             
             if ($job->counter_tries <= 1 && $job->delay ) {
@@ -62,7 +61,7 @@ class WorkerCommand implements CommandInterface
                 continue;
             }
 
-            $this->info('run job '.$job->id.' - '.$job->comment);
+            $this->info('run job '.$job->id.(!empty($job->comment) ? ' - ' . $job->comment : null) );
             
             if ($job->counter_tries > 1) {
                 $this->info('tries '.$job->counter_tries);
@@ -73,6 +72,10 @@ class WorkerCommand implements CommandInterface
 
 
             if ($resultCode) {
+                if (count($res)) {
+                    $this->error(implode("\n >", $res));
+                }
+                
                 if ($job->counter_tries >= $job->tries) {
                     $this->error('fail');
                     continue;
@@ -84,10 +87,11 @@ class WorkerCommand implements CommandInterface
                 $storage->save($job->toArray());     
                 continue;               
             }
+            
             $this->success('success');
             
         }
-        
+
         throw new OtherExceptions();
     }
 

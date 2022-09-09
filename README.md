@@ -29,7 +29,7 @@ The main idea is that full-fledged bash commands are sent to the queue. This mak
 `php q-server.php worker`
 
 ### Put command in queue
-`php q-server.php put --cmd='cd path/to/project/ && php command.php' --comment='run my command'`
+`php q-server.php put --cmd='cd path/to/project/ && php command.php' --comment='run my command'`. It return unique job process ID. Soon it will be possible to control the process by this id. But right now it only talks about successfully placing the job in the queue
 
 
 ## Commands
@@ -47,6 +47,7 @@ The main idea is that full-fledged bash commands are sent to the queue. This mak
  
 ## "worker" command parameters:
     --single-mode  - true or false. Prevent second instance from starting. default value is false
+    --silent-mode  - true or false. All output send to log file.
     
 ## How to run in crontab
 1. Run `crontab -e`
@@ -56,3 +57,5 @@ The main idea is that full-fledged bash commands are sent to the queue. This mak
 * Global startup script for /usr/bin or alias. To be able to call from anywhere as `q-server put --cmd=''`
 * Mysql driver
 * More drivers for the driver god
+* Once run job in worker by id
+* Kill job by id
