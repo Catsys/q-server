@@ -2,10 +2,32 @@
 
 namespace QServer\Storages;
 
-use QServer\Jobs\JobInterface;
-
+/**
+ *  Storage interface for queue data storage
+ */
 interface StorageInterface {
-    public function getRow();
-    public function delete($id);
+
+    /**
+     * Get one row with serialize data for \QServer\Jobs\JobInterface::fillFromArray.
+     * The method must itself determine the next row(job) to be run by the worker and return
+     * @return array
+     */
+    public function getRow() : array;
+
+
+    /**
+     * Delete Job by ID
+     *
+     * @param $id
+     * @return bool
+     */
+    public function delete($id) : bool;
+
+    /**
+     * Saving data to storage
+     *
+     * @param array $data Job data for saving to storage
+     * @return bool
+     */
     public function save(array $data) : bool;
 }

@@ -2,10 +2,21 @@
 
 namespace QServer\Commands;
 
+/**
+ * Show help info
+ */
 class HelpCommand implements CommandInterface
 {
+    /**
+     * Command signature for call in cli
+     *
+     * @var string
+     */
     public static $signature = 'help';
 
+    /**
+     * @inheritDoc
+     */
     public function run($data = [])
     {
         return PHP_EOL."Q-Server - simple jobs queue for easy projects like a home server".PHP_EOL.PHP_EOL.
@@ -19,6 +30,9 @@ class HelpCommand implements CommandInterface
             . "    --tries_delay - delay between tries in seconds. default is 180 (3 min)".PHP_EOL;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function isValid($data = []) : bool
     {
         return true;

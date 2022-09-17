@@ -2,16 +2,26 @@
 
 namespace QServer\Commands;
 
-
 use QServer\Exceptions\ArgumentsNotValidExceptions;
 use QServer\Exceptions\OtherExceptions;
 use QServer\Jobs\JobStruct;
 use QServer\Storages\StorageFactory;
 
+/**
+ * Put job to storage
+ */
 class PutCommand implements CommandInterface
 {
+    /**
+     * Command signature for call in cli
+     *
+     * @var string
+     */
     public static $signature = 'put';
 
+    /**
+     * @inheritDoc
+     */
     public function run(array $data = [])
     {
         $data = $this->prepareData($data);
@@ -36,6 +46,10 @@ class PutCommand implements CommandInterface
         throw new OtherExceptions();
     }
 
+    /**
+     * @param $data
+     * @return array
+     */
     private function prepareData($data) {
         $newData = [];
         foreach ($data as $arg) {
@@ -48,6 +62,9 @@ class PutCommand implements CommandInterface
         return $newData;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function isValid(array $data = []) : bool
     {
         return count(array_diff_key(array_flip(['cmd']), $data)) === 0;

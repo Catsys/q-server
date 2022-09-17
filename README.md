@@ -34,7 +34,8 @@ The main idea is that full-fledged bash commands are sent to the queue. This mak
 
 ## Commands
 `put` - put job in queue  
-`worker` - run listener. Listens to the queue and executes the jobs. Your task is to maintain the constant performance of the worker.
+`worker` - run listener. Listens to the queue and executes the jobs. Your task is to maintain the constant performance of the worker.  
+`worker-stop` - stop all workers.   
 `help` - run help command  
 
 ## "put" command parameters:
@@ -48,6 +49,8 @@ The main idea is that full-fledged bash commands are sent to the queue. This mak
 ## "worker" command parameters:
     --single-mode  - true or false. Prevent second instance from starting. default value is false
     --silent-mode  - true or false. All output send to log file.
+    --sleep        - delay between job searches in seconds. Reduces the number of requests to the storage. Default value is 3 sec
+
     
 ## How to run in crontab
 1. Run `crontab -e`

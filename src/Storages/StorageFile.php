@@ -2,18 +2,27 @@
 
 namespace QServer\Storages;
 
+/**
+ *  Storage implementation. Storage in files
+ */
 class StorageFile implements StorageInterface {
 
     private $dir = 'data';
     private $DBfilename = 'job_';
 
+    /**
+     * @inheritdoc
+     */
     public function save(array $data) : bool {
         $this->createDir();
         file_put_contents($this->getFulPathToFile($this->DBfilename.$data['created'].'_'.$data['id']), json_encode($data).PHP_EOL);
         return true;
     }
 
-    public function getRow() {
+    /**
+     * @inheritdoc
+     */
+    public function getRow() : array {
     
         if (!$files = \glob($this->getFulPathToFile($this->DBfilename.'*'))) {
             return [];
@@ -28,7 +37,10 @@ class StorageFile implements StorageInterface {
         return $data;
     }
 
-    public function delete($id) {
+    /**
+     * @inheritdoc
+     */
+    public function delete($id) : bool {
         if (!$files = \glob($this->getFulPathToFile($this->DBfilename.'*_'.$id))) {
             return false;
         }
@@ -37,10 +49,19 @@ class StorageFile implements StorageInterface {
     }
 
 
+    /**
+     * Create dir for storage
+     *
+     * @return void
+     */
     private function createDir() {
         @mkdir('data');
     }
 
+    /**
+     * @param $file
+     * @return string
+     */
     private function getFulPathToFile($file) {
         return __PROJECT_ROOT__."/{$this->dir}/{$file}";
     }

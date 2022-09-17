@@ -1,4 +1,5 @@
 <?php
+
 define('__START_SCRIPT__', __FILE__);
 
 require_once 'boot.php';
