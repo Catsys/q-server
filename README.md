@@ -57,7 +57,6 @@ The main idea is that full-fledged bash commands are sent to the queue. This mak
 2. insert `* * * * * cd PATH_TO_WORKER && php q-server.php worker --single-mode=true` where PATH_TO_WORKER replaced to worker dir in your server.
 
 ## TODO
-* Global startup script for /usr/bin or alias. To be able to call from anywhere as `q-server put --cmd=''`
 * Mysql driver
 * More drivers for the driver god
 * Once run job in worker by id
