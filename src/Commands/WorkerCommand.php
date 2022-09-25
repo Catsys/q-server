@@ -51,11 +51,15 @@ class WorkerCommand implements CommandInterface
         $this->info('start worker');
 
         while (true) {
-            // Sleep between job search
+            // Once skip sleep
             if ($skipNextSleep) {
-                \sleep($sleepDelay);
                 $skipNextSleep = false;
             }
+            else {
+                // Sleep between job search
+                \sleep($sleepDelay);
+            }
+
             if (file_exists($stopFile)) {
                 $this->error('The user has ordered an exit');
                 exit;
