@@ -14,6 +14,11 @@ interface StorageInterface {
      */
     public function getRow() : array;
 
+    /**
+     * Get all rows with serialize data for \QServer\Jobs\JobInterface::fillFromArray.
+     * @return array
+     */
+    public function getAllRows() : array;
 
     /**
      * Delete Job by ID

@@ -40,6 +40,26 @@ class StorageFile implements StorageInterface {
     /**
      * @inheritdoc
      */
+    public function getAllRows(): array {
+
+        if (!$files = \glob($this->getFulPathToFile($this->DBfilename.'*'))) {
+            return [];
+        }
+
+        $result = [];
+
+        foreach ($files as $fileName) {
+            if ($data = \json_decode(file_get_contents($fileName), true)) {
+                $result[] = $data;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function delete($id) : bool {
         if (!$files = \glob($this->getFulPathToFile($this->DBfilename.'*_'.$id))) {
             return false;

@@ -20,7 +20,7 @@ class StopWorkerCommand implements CommandInterface
      *
      * @var string
      */
-    public static $signature = 'worker-stop';
+    public static $signature = 'stop';
 
     /**
      * @inheritDoc
