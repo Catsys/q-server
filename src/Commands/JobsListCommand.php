@@ -11,7 +11,6 @@ use QServer\Storages\StorageFactory;
  */
 class JobsListCommand implements CommandInterface
 {
-    use CommandOutput;
     /**
      * Command signature for call in cli
      *
@@ -38,19 +37,21 @@ class JobsListCommand implements CommandInterface
             $jobs[] = $job;
         }
 
-        $format = "|--- ID: %s \n| Comment: \033[36m %s \033[0m \n| Command: %s \n| Tries: %s \n| Last Run: %s \n| Next Run: %s \n|--\n";
-
+        $output = null;
         foreach ($jobs as $job) {
-            printf($format,
-                $job->id,
-                $job->comment,
-                $job->cmd,
-                $job->counter_tries . '/' . $job->tries,
-                date('Y-m-d H:i:s', $job->created),
-                date('Y-m-d H:i:s', $job->created + (($job->counter_tries + 1) * $job->tries_delay) + $job->delay)
-            );
+            $nextRun = $job->created + $job->tries_delay;
+            $output .=
+                sprintf("|--- ID: %s \n| Comment: \033[36m %s \033[0m \n| Command: %s \n| Tries: %s \n| Last Run: %s \n| Next Run: %s \n|--\n",
+                    $job->id,
+                    $job->comment,
+                    $job->cmd,
+                    $job->counter_tries . '/' . $job->tries,
+                    date('Y-m-d H:i:s', $job->created),
+                    date('Y-m-d H:i:s', $nextRun) . ( ($nextRun + 180) < time() ? '❗ ' : null )
+                );
         }
 
+        return $output;
     }
 
     /**

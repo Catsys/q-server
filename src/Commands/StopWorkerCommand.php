@@ -27,9 +27,8 @@ class StopWorkerCommand implements CommandInterface
      */
     public function run(array $data = [])
     {
-        $dir = __PROJECT_ROOT__.'/data';
-        @mkdir($dir);
-        touch($dir.'/'.self::WORKER_STOP_FILENAME);
+        @mkdir(__DATA_DIR__);
+        touch(__DATA_DIR__.'/'.self::WORKER_STOP_FILENAME);
         $this->success('success');
     }
 

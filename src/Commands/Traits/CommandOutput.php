@@ -55,7 +55,7 @@ trait CommandOutput
     protected function cliMessage($text, $logText = null) {
         $prefix = date('H:i:s').'-';
         if ($this->silentMode) {
-            $logFile = __PROJECT_ROOT__.'/data/log_'.date('Y_m_d').'.log';
+            $logFile = __DATA_DIR__ . '/log_'.date('Y_m_d').'.log';
             file_put_contents($logFile, $prefix.($logText ?? $text)."\n", FILE_APPEND);
         }
         else {

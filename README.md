@@ -39,6 +39,7 @@ The main idea is that full-fledged bash commands are sent to the queue. This mak
 | `worker` | run listener. Listens to the queue and executes the jobs. Your task is to maintain the constant performance of the worker |  
 | `stop`   | stop all workers                                                                                                          |  
 | `list`   | show a list of all jobs in the queue                                                                                      |  
+| `status` | show worker status                                                                                                        |  
 | `help`   | run help command                                                                                                          |  
 
 ## "put" command parameters:
@@ -52,16 +53,16 @@ The main idea is that full-fledged bash commands are sent to the queue. This mak
 | `tries_delay` | 180 (3 min)         | delay between tries in seconds |
  
 ## "worker" command parameters:
-| Parameter            | Default | Description                                                                          |
-|----------------------|---------|--------------------------------------------------------------------------------------|
-| <nobr>`single-mode`</nobr> | `false` | Prevent second instance from starting                                                |
-| <nobr>`silent-mode`</nobr> | `false` | All output send to log file.                                                         |
-| `sleep`              | 3       | delay between job searches in seconds. Reduces the number of requests to the storage |
+| Parameter     | Default | Description                                                                          |
+|---------------|---------|--------------------------------------------------------------------------------------|
+| `single-mode` | `false` | Prevent second instance from starting                                                |
+| `silent-mode` | `false` | All output send to log file.                                                         |
+| `sleep`       | 3       | delay between job searches in seconds. Reduces the number of requests to the storage |
 
     
 ## How to run in crontab
 1. Run `crontab -e`
-2. insert `* * * * * cd PATH_TO_WORKER && php q-server.php worker --single-mode=true` where PATH_TO_WORKER replaced to worker dir in your server.
+2. insert `* * * * * PATH_TO_QSERVER/q-server worker --single-mode=true` where PATH_TO_WORKER replaced to worker dir in your server.
 
 ## TODO
 * Mysql driver

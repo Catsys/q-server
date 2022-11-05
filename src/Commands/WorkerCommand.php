@@ -4,7 +4,6 @@ namespace QServer\Commands;
 
 
 use QServer\Commands\Traits\DataOptionsHelper;
-use QServer\Exceptions\OtherExceptions;
 use QServer\Jobs\JobStruct;
 use QServer\Storages\StorageFactory;
 use QServer\Commands\Traits\CommandOutput;
@@ -32,10 +31,11 @@ class WorkerCommand implements CommandInterface
         $skipNextSleep = true; // Once skip sleep
         $storage = StorageFactory::create();
         $sleepDelay = $data['sleep'] ?? 3;
-        $dataDir = __PROJECT_ROOT__.'/data';
-        @mkdir($dataDir);
+        @mkdir(__DATA_DIR__);
+        $tickFile = __DATA_DIR__.'/worker_tick';
+
         if (($data['single-mode'] ?? 'false') !== 'false') {
-            $lockFile = $dataDir.'/worker_lock';
+            $lockFile = __DATA_DIR__.'/worker_lock';
             if (file_exists($lockFile)) {
                 $created = filemtime($lockFile);
                 if((time() - $created) < (10 + $sleepDelay)) {
@@ -43,7 +43,9 @@ class WorkerCommand implements CommandInterface
                 }
             }
         }
-        $stopFile = $dataDir.'/'.StopWorkerCommand::WORKER_STOP_FILENAME;
+
+        $stopFile = __DATA_DIR__.'/'.StopWorkerCommand::WORKER_STOP_FILENAME;
+
         if (file_exists($stopFile)) {
             unlink($stopFile);
         }
@@ -51,6 +53,9 @@ class WorkerCommand implements CommandInterface
         $this->info('start worker');
 
         while (true) {
+            // worker tick
+            touch($tickFile);
+
             // Once skip sleep
             if ($skipNextSleep) {
                 $skipNextSleep = false;
@@ -111,7 +116,7 @@ class WorkerCommand implements CommandInterface
             $this->info('run job '.$job->id.(!empty($job->comment) ? ' - ' . $job->comment : null) );
             
             if ($job->counter_tries > 1) {
-                $this->info('tries '.$job->counter_tries);
+                $this->info('attempt '.$job->counter_tries);
             }
             // Before running, we deleting row from storage
             $storage->delete($job->id);

@@ -1,6 +1,7 @@
 <?php
 
-define('__PROJECT_ROOT__', __DIR__);
+const __PROJECT_ROOT__ = __DIR__;
+const __DATA_DIR__ = __PROJECT_ROOT__ . '/data';
 
 spl_autoload_register(function ($class) {
     // project-specific namespace prefix

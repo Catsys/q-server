@@ -21,6 +21,12 @@ interface StorageInterface {
     public function getAllRows() : array;
 
     /**
+     * Get the number of all rows in storage. i.e. all tasks in the queue
+     * @return array
+     */
+    public function countRows() : int;
+
+    /**
      * Delete Job by ID
      *
      * @param $id

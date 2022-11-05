@@ -60,6 +60,13 @@ class StorageFile implements StorageInterface {
     /**
      * @inheritdoc
      */
+    public function countRows(): int {
+        return \count(\glob($this->getFulPathToFile($this->DBfilename.'*')));
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function delete($id) : bool {
         if (!$files = \glob($this->getFulPathToFile($this->DBfilename.'*_'.$id))) {
             return false;
