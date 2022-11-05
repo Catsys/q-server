@@ -52,11 +52,11 @@ The main idea is that full-fledged bash commands are sent to the queue. This mak
 | `tries_delay` | 180 (3 min)         | delay between tries in seconds |
  
 ## "worker" command parameters:
-| Parameter     | Default | Description                                                                          |
-|---------------|---------|--------------------------------------------------------------------------------------|
-| `single-mode` | `false` | Prevent second instance from starting                                                |
-| `silent-mode` | `false` | All output send to log file.                                                         |
-| `sleep`       | 3       | delay between job searches in seconds. Reduces the number of requests to the storage |
+| Parameter            | Default | Description                                                                          |
+|----------------------|---------|--------------------------------------------------------------------------------------|
+| `single&#x2011;mode` | `false` | Prevent second instance from starting                                                |
+| `silent&#x2011;mode` | `false` | All output send to log file.                                                         |
+| `sleep`              | 3       | delay between job searches in seconds. Reduces the number of requests to the storage |
 
     
 ## How to run in crontab
