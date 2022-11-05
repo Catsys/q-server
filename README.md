@@ -54,8 +54,8 @@ The main idea is that full-fledged bash commands are sent to the queue. This mak
 ## "worker" command parameters:
 | Parameter            | Default | Description                                                                          |
 |----------------------|---------|--------------------------------------------------------------------------------------|
-| `single&#x2011;mode` | `false` | Prevent second instance from starting                                                |
-| `silent&#x2011;mode` | `false` | All output send to log file.                                                         |
+| <nobr>`single-mode`</nobr> | `false` | Prevent second instance from starting                                                |
+| <nobr>`silent-mode`</nobr> | `false` | All output send to log file.                                                         |
 | `sleep`              | 3       | delay between job searches in seconds. Reduces the number of requests to the storage |
 
     
