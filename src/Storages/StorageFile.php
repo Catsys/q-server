@@ -31,6 +31,7 @@ class StorageFile implements StorageInterface {
         $fileName = $files[array_rand($files)];
 
         if (!$data = \json_decode(file_get_contents($fileName), true)) {
+            unlink($fileName);
             return $this->getRow();
         }
         
