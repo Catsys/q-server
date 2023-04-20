@@ -16,6 +16,13 @@ trait CommandOutput
     protected $silentMode = false;
 
     /**
+     * Get path to logfile
+     */
+    public function getLogFilePath() {
+        return __DATA_DIR__ . '/log_'.date('Y_m_d').'.log';
+    }
+
+    /**
      * Show info messages in turquoise color
      *
      * @param $text
@@ -55,8 +62,7 @@ trait CommandOutput
     protected function cliMessage($text, $logText = null) {
         $prefix = date('H:i:s').'-';
         if ($this->silentMode) {
-            $logFile = __DATA_DIR__ . '/log_'.date('Y_m_d').'.log';
-            file_put_contents($logFile, $prefix.($logText ?? $text)."\n", FILE_APPEND);
+            file_put_contents($this->getLogFilePath(), $prefix.($logText ?? $text)."\n", FILE_APPEND);
         }
         else {
             echo $prefix.$text;

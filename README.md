@@ -41,6 +41,7 @@ The main idea is that full-fledged bash commands are sent to the queue. This mak
 | `list`   | show a list of all jobs in the queue                                                                                      |  
 | `status` | show worker status                                                                                                        |  
 | `help`   | run help command                                                                                                          |  
+| `log`    | show last 50 lines from log file. Use `--lines=10` for change lines limit                                                 |  
 
 ## "put" command parameters:
 | Parameter     | Default             | Description                    |
