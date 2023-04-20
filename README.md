@@ -64,9 +64,17 @@ The main idea is that full-fledged bash commands are sent to the queue. This mak
 1. Run `crontab -e`
 2. insert `* * * * * PATH_TO_QSERVER/q-server worker --single-mode=true` where PATH_TO_WORKER replaced to worker dir in your server.
 
+## Supervisor configuration
+Create and place the following config file in supervisor scope. Replace PATH_TO_WORKER to worker dir in your server.
+```
+[program:qserver]   
+command=PATH_TO_QSERVER/q-server/q-server worker --sleep=3  
+autostart=true
+autorestart=true
+```
+
 ## TODO
 * Mysql driver
 * More drivers for the driver god
 * Once run job in worker by id
 * Kill job by id
-* Status command

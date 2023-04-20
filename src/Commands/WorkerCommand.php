@@ -28,6 +28,9 @@ class WorkerCommand implements CommandInterface
     {
         $data = $this->prepareData($data);
         $this->silentMode = !empty($data['silent-mode']);
+        if ($this->silentMode) {
+            $this->info('silent mode enabled');
+        }
         $skipNextSleep = true; // Once skip sleep
         $storage = StorageFactory::create();
         $sleepDelay = $data['sleep'] ?? 3;
@@ -35,6 +38,7 @@ class WorkerCommand implements CommandInterface
         $tickFile = __DATA_DIR__.'/worker_tick';
 
         if (($data['single-mode'] ?? 'false') !== 'false') {
+            $this->info('single mode enabled');
             $lockFile = __DATA_DIR__.'/worker_lock';
             if (file_exists($lockFile)) {
                 $created = filemtime($lockFile);
