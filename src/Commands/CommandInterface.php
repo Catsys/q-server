@@ -7,7 +7,6 @@ namespace QServer\Commands;
  */
 interface CommandInterface
 {
-
     /**
      * Runtime method
      *

@@ -2,7 +2,6 @@
 
 namespace QServer\Commands;
 
-use QServer\Commands\Traits\CommandOutput;
 use QServer\Jobs\JobStruct;
 use QServer\Storages\StorageFactory;
 

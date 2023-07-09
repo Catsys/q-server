@@ -16,7 +16,7 @@ class CommandFactory
                 if (!class_exists($classname)) {
                     continue;
                 }
-                $class = new \ReflectionClass($classname);
+                $class = new ReflectionClass($classname);
 
                 if (!$signature = $class->getStaticPropertyValue('signature')) {
                    continue;

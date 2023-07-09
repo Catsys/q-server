@@ -60,7 +60,7 @@ trait CommandOutput
      * @return void
      */
     protected function cliMessage($text, $logText = null) {
-        $prefix = date('H:i:s').'-';
+        $prefix = date('m.d H:i:s').'-';
         if ($this->silentMode) {
             file_put_contents($this->getLogFilePath(), $prefix.($logText ?? $text)."\n", FILE_APPEND);
         }
